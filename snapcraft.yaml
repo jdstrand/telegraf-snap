@@ -7,7 +7,7 @@ description: |
  Plugin-driven server agent for collecting & reporting metrics
 
 grade: devel
-confinement: classic
+confinement: strict
 
 architectures:
 - build-on: amd64
@@ -45,6 +45,14 @@ apps:
   telegraf:
     command: bin/telegraf.wrap
     daemon: simple
+    plugs:
+    - network
+    - network-bind
+    - system-observe
+    - hardware-observe
+    - mount-observe
+    - login-session-observe
+    - network-observe
 
 hooks:
   configure:

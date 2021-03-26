@@ -1,10 +1,22 @@
 #!/bin/sh
 
-# Taken from https://github.com/sajoupa/telegraf/blob/master/snap/hooks/configure
+# create the config directory so both snap_daemon and root can acces it. See
+# https://forum.snapcraft.io/t/system-usernames/13386
+CONFIG_DIR="$SNAP_DATA"/telegraf.d
+if [ ! -d "$CONFIG_DIR" ]; then
+    mkdir "$CONFIG_DIR"
+    chmod 775 "$CONFIG_DIR"
+    chown snap_daemon "$CONFIG_DIR"  # keep group as 'root'
+fi
 
-# Copy the config file if needed, update permissions, and create telegraf.d
-cp -pn "$SNAP"/etc/telegraf.conf "$SNAP_DATA"/telegraf.conf
-mkdir -p "$SNAP_DATA"/telegraf.d
-chown --quiet snap_daemon: "$SNAP_DATA"/telegraf.conf "$SNAP_DATA"/telegraf.d "$SNAP_DATA"/telegraf.d/*.conf
-chmod --quiet 640 "$SNAP_DATA"/telegraf.conf "$SNAP_DATA"/telegraf.d/*.conf
-chmod 755 "$SNAP_DATA"/telegraf.d
+# copy the config file into place so both snap_daemon and root can acces it.
+CONFIG="$SNAP_DATA"/telegraf.conf
+if [ ! -e "$CONFIG" ]; then
+    cp "$SNAP"/etc/telegraf.conf "$CONFIG"
+    chmod 660 "$CONFIG"
+    chown snap_daemon "$CONFIG"  # keep group as 'root'
+fi
+
+# make sure everything is readable if new configs are added
+chmod 660 "$CONFIG" "$CONFIG_DIR"/*.conf || true
+chown snap_daemon "$CONFIG" "$CONFIG_DIR"/*.conf || true
