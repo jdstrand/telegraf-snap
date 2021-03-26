@@ -1,0 +1,51 @@
+name: telegraf-jdstrand
+base: core18
+# Get version info from the influxdb part's override-build script
+adopt-info: telegraf
+summary: Telegraf
+description: |
+ Plugin-driven server agent for collecting & reporting metrics
+
+grade: devel
+confinement: classic
+
+architectures:
+- build-on: amd64
+- build-on: armhf
+#- build-on: arm64
+
+parts:
+  telegraf:
+    plugin: dump
+    source:
+      - on armhf: https://dl.influxdata.com/telegraf/releases/telegraf-1.18.0_linux_armhf.tar.gz
+      - else: https://dl.influxdata.com/telegraf/releases/telegraf-1.18.0_linux_amd64.tar.gz
+    override-build: |
+      snapcraftctl build
+      VERSION=$($SNAPCRAFT_PART_BUILD/telegraf*/usr/bin/telegraf version | cut -d' ' -f2)
+      snapcraftctl set-version $VERSION
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      cp -a telegraf*/usr/bin/telegraf $SNAPCRAFT_PART_INSTALL/bin
+      mkdir -p $SNAPCRAFT_PART_INSTALL/etc
+      cp -a telegraf*/etc/telegraf/telegraf.conf $SNAPCRAFT_PART_INSTALL/etc
+    stage:
+    - bin/telegraf
+    - etc/telegraf.conf
+    - usr/bin/setpriv
+    stage-packages:
+    - setpriv
+  dumper:
+    plugin: dump
+    source: files
+
+system-usernames:
+  snap_daemon: shared
+
+apps:
+  telegraf:
+    command: bin/telegraf.wrap
+    daemon: simple
+
+hooks:
+  configure:
+    plugs: []
