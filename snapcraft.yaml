@@ -18,8 +18,8 @@ parts:
   telegraf:
     plugin: dump
     source:
-      - on armhf: https://dl.influxdata.com/telegraf/releases/telegraf-1.21.4_linux_armhf.tar.gz
-      - else: https://dl.influxdata.com/telegraf/releases/telegraf-1.21.4_linux_amd64.tar.gz
+      - on armhf: https://dl.influxdata.com/telegraf/releases/telegraf-1.20.4_linux_armhf.tar.gz
+      - else: https://dl.influxdata.com/telegraf/releases/telegraf-1.20.4_linux_amd64.tar.gz
     override-build: |
       snapcraftctl build
       VERSION=$($SNAPCRAFT_PART_BUILD/telegraf*/usr/bin/telegraf version | cut -d' ' -f2)
@@ -52,7 +52,6 @@ apps:
     - network
     - network-bind
     - network-observe
-    - network-control
     - system-observe
 
 hooks:
