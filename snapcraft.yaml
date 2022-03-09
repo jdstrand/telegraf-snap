@@ -46,13 +46,14 @@ apps:
     command: bin/telegraf.wrap
     daemon: simple
     plugs:
+    - hardware-observe
+    - login-session-observe
+    - mount-observe
     - network
     - network-bind
-    - system-observe
-    - hardware-observe
-    - mount-observe
-    - login-session-observe
     - network-observe
+    - network-control
+    - system-observe
 
 hooks:
   configure:
