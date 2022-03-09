@@ -45,6 +45,8 @@ apps:
   telegraf:
     command: bin/telegraf.wrap
     daemon: simple
+    environment:
+      SELF_MOUNTINFO: 1
     plugs:
     - hardware-observe
     - login-session-observe
