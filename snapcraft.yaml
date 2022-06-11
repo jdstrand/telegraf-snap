@@ -49,6 +49,7 @@ apps:
       SELF_MOUNTINFO: 1
     plugs:
     - hardware-observe
+    - log-observe
     - login-session-observe
     - mount-observe
     - network
