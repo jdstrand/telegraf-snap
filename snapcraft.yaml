@@ -46,7 +46,7 @@ apps:
     command: bin/telegraf.wrap
     daemon: simple
     environment:
-      SELF_MOUNTINFO: 1
+      HOST_PROC_MOUNTINFO: /proc/self/mountinfo
     plugs:
     - hardware-observe
     - log-observe
