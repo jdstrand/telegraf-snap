@@ -11,14 +11,15 @@ confinement: strict
 
 architectures:
 - build-on: amd64
+- build-on: arm64
 - build-on: armhf
-#- build-on: arm64
 
 parts:
   telegraf:
     plugin: dump
     source:
       - on armhf: https://dl.influxdata.com/telegraf/releases/telegraf-1.23.0_linux_armhf.tar.gz
+      - on arm64: https://dl.influxdata.com/telegraf/releases/telegraf-1.23.0_linux_arm64.tar.gz
       - else: https://dl.influxdata.com/telegraf/releases/telegraf-1.23.0_linux_amd64.tar.gz
     override-build: |
       snapcraftctl build
