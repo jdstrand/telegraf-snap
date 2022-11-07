@@ -18,9 +18,9 @@ parts:
   telegraf:
     plugin: dump
     source:
-      - on armhf: https://dl.influxdata.com/telegraf/releases/telegraf-1.24.1_linux_armhf.tar.gz
-      - on arm64: https://dl.influxdata.com/telegraf/releases/telegraf-1.24.1_linux_arm64.tar.gz
-      - on amd64: https://dl.influxdata.com/telegraf/releases/telegraf-1.24.1_linux_amd64.tar.gz
+      - on armhf: https://dl.influxdata.com/telegraf/releases/telegraf-1.24.3_linux_armhf.tar.gz
+      - on arm64: https://dl.influxdata.com/telegraf/releases/telegraf-1.24.3_linux_arm64.tar.gz
+      - on amd64: https://dl.influxdata.com/telegraf/releases/telegraf-1.24.3_linux_amd64.tar.gz
     override-build: |
       snapcraftctl build
       VERSION=$($SNAPCRAFT_PART_BUILD/telegraf*/usr/bin/telegraf version | cut -d' ' -f2)
