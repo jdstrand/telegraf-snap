@@ -1,5 +1,5 @@
 name: telegraf-jdstrand
-base: core18
+base: core20
 # Get version info from the influxdb part's override-build script
 adopt-info: telegraf
 summary: Telegraf
@@ -34,7 +34,7 @@ parts:
     - etc/telegraf.conf
     - usr/bin/setpriv
     stage-packages:
-    - setpriv
+    - util-linux
   dumper:
     plugin: dump
     source: files
